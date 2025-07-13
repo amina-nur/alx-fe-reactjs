@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <WelcomeMessage /> 
-      <Header/>
+      <Header />
       <MainContent />
       <UserProfile
         name="Alice"
