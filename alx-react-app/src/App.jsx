@@ -7,8 +7,8 @@ import UserProfile from './components/UserProfile';
 function App() {
   return (
     <>
-      <WelcomeMessage/> 
-      <Header/>
+      <WelcomeMessage /> 
+      <Header />
       <MainContent />
       <UserProfile
         name="Alice"
