@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useRecipeStore } from './recipeStore';
 
 const RecipeList = () => {
@@ -14,6 +15,12 @@ const RecipeList = () => {
             <h3 className="text-xl font-semibold">{recipe.title}</h3>
             <p>Time: {recipe.time} mins</p>
             <p>Ingredients: {recipe.ingredients.join(', ')}</p>
+            <Link
+              to={`/recipe/${recipe.id}`}
+              className="text-blue-600 underline hover:text-blue-800"
+            >
+              View Details
+            </Link>
           </div>
         ))
       )}
