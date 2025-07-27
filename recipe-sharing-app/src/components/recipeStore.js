@@ -56,26 +56,30 @@ const useRecipeStore = create((set, get) => ({
     set({ filteredRecipes: filtered });
   },
 
-  // Add a recipe to favorites
-  addFavorite: (recipe) => {
-    set(state => ({
-      favorites: [...state.favorites, recipe]
-    }));
+  // Favorites
+  addFavorite: (id) => {
+    const { favorites } = get();
+    if (!favorites.includes(id)) {
+      set({ favorites: [...favorites, id] });
+      get().generateRecommendations();
+    }
   },
-  // Remove a recipe from favorites
+
   removeFavorite: (id) => {
     set(state => ({
-      favorites: state.favorites.filter(recipe => recipe.id !== id)
+      favorites: state.favorites.filter(favId => favId !== id)
     }));
+    get().generateRecommendations();
   },
-  recommendations: [],
-  generateRecommendations: () => set(state => {
-    // Mock implementation based on favorites
-    const recommended = state.recipes.filter(recipe =>
-      state.favorites.includes(recipe.id) && Math.random() > 0.5
+
+  // Recommendations (mock: return random subset of favorites)
+  generateRecommendations: () => {
+    const { recipes, favorites } = get();
+    const recommended = recipes.filter(
+      r => favorites.includes(r.id) && Math.random() > 0.5
     );
-    return { recommendations: recommended };
-  }),
+    set({ recommendations: recommended });
+  },
 }));
 
 export default useRecipeStore;
