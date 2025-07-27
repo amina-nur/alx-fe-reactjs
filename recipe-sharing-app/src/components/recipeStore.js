@@ -6,7 +6,6 @@ const useRecipeStore = create((set, get) => ({
   searchTerm: '',
   favorites: [],
   recommendations: [],
-  searchTerm: '',
 
   // Add a recipe and filter afterward
   addRecipe: (newRecipe) => {
@@ -75,13 +74,13 @@ const useRecipeStore = create((set, get) => ({
   },
 
   // Recommendations (mock: return random subset of favorites)
-  generateRecommendations: () => {
-    const { recipes, favorites } = get();
-    const recommended = recipes.filter(
-      r => favorites.includes(r.id) && Math.random() > 0.5
+  generateRecommendations: () =>
+  set((state) => {
+    const recommended = state.recipes.filter((recipe) =>
+      state.favorites.includes(recipe.id) && Math.random() > 0.5
     );
-    set({ recommendations: recommended });
-  },
+    return { recommendations: recommended };
+  }),
 }));
 
 export default useRecipeStore;
