@@ -4,23 +4,42 @@ import EditRecipeForm from './EditRecipeForm';
 import DeleteRecipeButton from './DeleteRecipeButton';
 
 const RecipeDetails = () => {
-  // Get ID from URL
   const { id } = useParams();
+  const recipeId = Number(id);
 
-  // Get the recipe with the matching ID
   const recipe = useRecipeStore((state) =>
-    state.recipes.find((r) => r.id === Number(id))
+    state.recipes.find((r) => r.id === recipeId)
   );
+
+  const favorites = useRecipeStore((state) => state.favorites);
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
+  const removeFavorite = useRecipeStore((state) => state.removeFavorite);
+  const generateRecommendations = useRecipeStore((state) => state.generateRecommendations);
 
   if (!recipe) return <p>Recipe not found.</p>;
 
+  const isFavorite = favorites.includes(recipeId);
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFavorite(recipeId);
+    } else {
+      addFavorite(recipeId);
+      generateRecommendations();
+    }
+  };
+
   return (
     <div>
-      {/* Show recipe content */}
       <h1>{recipe.title}</h1>
       <p>{recipe.description}</p>
 
-      {/* Render edit and delete options */}
+      {/* Favorite Toggle */}
+      <button onClick={toggleFavorite}>
+        {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+      </button>
+
+      {/* Edit and Delete */}
       <EditRecipeForm recipe={recipe} />
       <DeleteRecipeButton id={recipe.id} />
     </div>
@@ -28,3 +47,4 @@ const RecipeDetails = () => {
 };
 
 export default RecipeDetails;
+
