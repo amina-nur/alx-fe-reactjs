@@ -3,7 +3,6 @@ import { create } from 'zustand';
 const useRecipeStore = create((set, get) => ({
   recipes: [],
   filteredRecipes: [],
-  searchTerm: '',
   favorites: [],
   recommendations: [],
   searchTerm: '',
