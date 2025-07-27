@@ -3,6 +3,7 @@ import { create } from 'zustand';
 const useRecipeStore = create((set, get) => ({
   recipes: [],
   filteredRecipes: [],
+  favorites: [],
   searchTerm: '',
 
   // Add a recipe and filter afterward
@@ -54,6 +55,27 @@ const useRecipeStore = create((set, get) => ({
 
     set({ filteredRecipes: filtered });
   },
+
+  // Add a recipe to favorites
+  addFavorite: (recipe) => {
+    set(state => ({
+      favorites: [...state.favorites, recipe]
+    }));
+  },
+  // Remove a recipe from favorites
+  removeFavorite: (id) => {
+    set(state => ({
+      favorites: state.favorites.filter(recipe => recipe.id !== id)
+    }));
+  },
+  recommendations: [],
+  generateRecommendations: () => set(state => {
+    // Mock implementation based on favorites
+    const recommended = state.recipes.filter(recipe =>
+      state.favorites.includes(recipe.id) && Math.random() > 0.5
+    );
+    return { recommendations: recommended };
+  }),
 }));
 
 export default useRecipeStore;
