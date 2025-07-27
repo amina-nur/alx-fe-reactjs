@@ -5,6 +5,8 @@ import RecipeDetails from './components/RecipeDetails';
 import SearchBar from './components/SearchBar'; 
 import { useEffect } from 'react';
 import useRecipeStore from './recipeStore';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
 
 const sampleData = [
   { id: 1, title: 'Pasta', ingredients: ['flour', 'egg'], time: 20 },
@@ -30,6 +32,8 @@ function App() {
               <SearchBar />
               <hr className="my-4" />
               <RecipeList />
+              <FavoritesList />
+              <RecommendationsList />
             </>
           } />
           <Route path="/recipe/:id" element={<RecipeDetails />} />
