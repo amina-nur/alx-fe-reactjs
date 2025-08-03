@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import axios from 'axios';
-
 const BASE_URL = 'https://api.github.com/search/users';
 
 // Fetch users with optional advanced filters (username, location, repos)
