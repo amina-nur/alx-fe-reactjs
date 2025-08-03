@@ -43,7 +43,7 @@ function Search() {
 
       {/* Feedback */}
       {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>User not found.</p>}
+      {error && <p style={{ color: 'red' }}>Looks like we cant find the user</p>}
 
       {/* Display user info */}
       {user && (
