@@ -21,9 +21,9 @@ function RecipeDetail() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl mx-auto p-6 shadow-lg">
       {/* Recipe title */}
-      <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+      <h1 className="text-3xl font-bold mb-4 shadow">{recipe.title}</h1>
 
       {/* Recipe image */}
       <img src={recipe.image} alt={recipe.title} className="w-full rounded-lg mb-6" />
