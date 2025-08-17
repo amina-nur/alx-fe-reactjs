@@ -7,8 +7,8 @@ function AddRecipeForm() {
   const [steps, setSteps] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
     // --- Validation logic ---
     if (!title || !ingredients || !steps) {
