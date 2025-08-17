@@ -1,34 +1,40 @@
 import { useState } from "react";
 
 function AddRecipeForm() {
-  // State to track inputs
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+
+  // --- Validation Function ---
+  const validate = () => {
+    const newErrors = {};
+
+    if (!title.trim()) newErrors.title = "Recipe title is required.";
+    if (!ingredients.trim()) {
+      newErrors.ingredients = "Ingredients are required.";
+    } else if (ingredients.split(",").length < 2) {
+      newErrors.ingredients = "Please include at least two ingredients.";
+    }
+    if (!steps.trim()) newErrors.steps = "Preparation steps are required.";
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // --- Validation logic ---
-    if (!title || !ingredients || !steps) {
-      setError("All fields are required.");
-      return;
-    }
+    if (!validate()) return;
 
-    if (ingredients.split(",").length < 2) {
-      setError("Please include at least two ingredients.");
-      return;
-    }
-
-    // Clear error and simulate form submission
-    setError("");
     alert("Recipe submitted successfully!");
 
     // Reset form
     setTitle("");
     setIngredients("");
     setSteps("");
+    setErrors({});
   };
 
   return (
@@ -37,12 +43,8 @@ function AddRecipeForm() {
         Add a New Recipe
       </h2>
 
-      {/* --- Show validation errors --- */}
-      {error && <p className="text-red-500 mb-3">{error}</p>}
-
-      {/* --- Form --- */}
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Title Input */}
+        {/* Title */}
         <div>
           <label className="block text-gray-700 font-medium">Recipe Title</label>
           <input
@@ -52,9 +54,10 @@ function AddRecipeForm() {
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
             placeholder="e.g. Spaghetti Carbonara"
           />
+          {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
         </div>
 
-        {/* Ingredients Input */}
+        {/* Ingredients */}
         <div>
           <label className="block text-gray-700 font-medium">Ingredients</label>
           <textarea
@@ -64,9 +67,12 @@ function AddRecipeForm() {
             placeholder="Separate ingredients with commas"
             rows="3"
           />
+          {errors.ingredients && (
+            <p className="text-red-500 text-sm">{errors.ingredients}</p>
+          )}
         </div>
 
-        {/* Steps Input */}
+        {/* Steps */}
         <div>
           <label className="block text-gray-700 font-medium">Preparation Steps</label>
           <textarea
@@ -76,9 +82,12 @@ function AddRecipeForm() {
             placeholder="Step 1, Step 2, Step 3..."
             rows="4"
           />
+          {errors.steps && (
+            <p className="text-red-500 text-sm">{errors.steps}</p>
+          )}
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
