@@ -1,46 +1,52 @@
-import { useQuery } from 'react-query';
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 
-// Function to fetch posts from the JSONPlaceholder API
+// Function to fetch posts from JSONPlaceholder API
 const fetchPosts = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-  if (!res.ok) {
-    throw new Error('Failed to fetch posts');
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!response.ok) {
+    throw new Error("Failed to fetch posts");
   }
-  return res.json(); // convert response to JSON
+  return response.json();
 };
 
 function PostsComponent() {
-  // useQuery handles fetching, caching, error & loading states automatically
+  // useQuery handles data fetching, caching, and updates
   const {
-    data: posts,       // renamed data to posts
-    isLoading,         // true while fetching data
-    isError,           // true if error happens
-    error,             // error object
-    refetch,           // function to manually refetch data
-    isFetching         // true if refetching in background
-  } = useQuery('posts', fetchPosts);
+    data,
+    error,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["posts"], // Unique key for caching
+    queryFn: fetchPosts, // Function to fetch data
 
-  // Handle loading state
-  if (isLoading) {
-    return <p>Loading posts...</p>;
-  }
+    // ✅ Advanced React Query options
+    cacheTime: 1000 * 60 * 5, // Keep cache for 5 minutes
+    staleTime: 1000 * 60, // Data is "fresh" for 1 minute
+    refetchOnWindowFocus: false, // Don’t refetch when switching back to tab
+    keepPreviousData: true, // Keep old data when fetching new
+  });
 
-  // Handle error state
-  if (isError) {
-    return <p>Error: {error.message}</p>;
-  }
+  // Show loading state
+  if (isLoading) return <p>Loading posts...</p>;
+
+  // Show error state
+  if (isError) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
-      {/* Button to refetch posts */}
-      <button onClick={() => refetch()}>
-        {isFetching ? 'Refreshing...' : 'Refresh Posts'}
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-2">Posts</h2>
+      <button
+        onClick={() => refetch()}
+        className="bg-blue-500 text-white px-3 py-1 rounded mb-4"
+      >
+        Refetch Posts
       </button>
-
       <ul>
-        {/* Display posts (show only first 10 for simplicity) */}
-        {posts.slice(0, 10).map(post => (
-          <li key={post.id}>
+        {data.slice(0, 10).map((post) => (
+          <li key={post.id} className="border-b py-2">
             <strong>{post.title}</strong>
             <p>{post.body}</p>
           </li>
