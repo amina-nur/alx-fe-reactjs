@@ -1,6 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
-import ProfileDetails from "./ProfileDetails";
-import ProfileSettings from "./ProfileSettings";
+import { Link, Outlet } from "react-router-dom";
 
 function Profile() {
   return (
@@ -11,10 +9,8 @@ function Profile() {
         <Link to="settings">Settings</Link>
       </nav>
 
-      <Routes>
-        <Route path="details" element={<ProfileDetails />} />
-        <Route path="settings" element={<ProfileSettings />} />
-      </Routes>
+      {/* This is where nested routes will render */}
+      <Outlet />
     </div>
   );
 }
