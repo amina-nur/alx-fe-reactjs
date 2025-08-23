@@ -1,58 +1,69 @@
-import {useState} from 'react';
+import { useState } from "react";
 
-export default function RegistrationForm(){
-    const [ formData, setFormData ] = useState({
-        email:"",
-        username:"",
-        password:"",
-    });
-    const [ errors, setErrors ] = useState({});
+export default function RegistrationForm() {
+  // Each field has its own state
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    const handleChange = async (e) => {
-        e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        //Basic validation
-        if (!formData.username || !formData.email || !formData.password){
-            setErrors("All field are required");
-            return;
-        }
-        setErrors("");
-
-        // Successful form submission
-        console.log("Form submitted:", formData);
-        alert("Form submitted successfully!");
+    // Basic validation
+    if (!username || !email || !password) {
+      setError("All fields are required!");
+      return;
     }
-}
-return(
-    <form onSubmit={handleChange}>
-        <div>
-            <label>Email:</label>
-            <input 
-                type="email" 
-                value={formData.email} 
-                onChange={(e) => setFormData({...formData, email: e.target.value})} 
-                required 
-            />
-        </div>
-        <div>
-            <label>Username:</label>
-            <input 
-                type="text" 
-                value={formData.username} 
-                onChange={(e) => setFormData({...formData, username: e.target.value})} 
-                required 
-            />
-        </div>
-        <div>
-            <label>Password:</label>
-            <input 
-                type="password" 
-                value={formData.password} 
-                onChange={(e) => setFormData({...formData, password: e.target.value})} 
-                required 
-            />
-        </div>
-        {errors && <p style={{color: 'red'}}>{errors}</p>}
-        <button type="submit">Register</button>
+
+    setError("");
+
+    // Simulate successful submission
+    console.log("Form submitted:", { username, email, password });
+    alert("Registration successful!");
+
+    // Clear form
+    setUsername("");
+    setEmail("");
+    setPassword("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="p-4 border rounded w-80">
+      <h2 className="text-xl font-bold mb-4">Controlled Form</h2>
+
+      {error && <p className="text-red-500">{error}</p>}
+
+      <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        value={username}       
+        onChange={(e) => setUsername(e.target.value)}
+        className="border p-2 w-full mb-2"
+      />
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={email}              
+        onChange={(e) => setEmail(e.target.value)}
+        className="border p-2 w-full mb-2"
+      />
+
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={password}         
+        onChange={(e) => setPassword(e.target.value)}
+        className="border p-2 w-full mb-2"
+      />
+
+      <button type="submit" className="bg-blue-500 text-white p-2 w-full">
+        Register
+      </button>
     </form>
-)
+  );
+}
