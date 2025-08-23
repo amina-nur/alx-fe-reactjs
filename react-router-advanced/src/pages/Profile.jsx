@@ -9,7 +9,7 @@ function Profile() {
         <Link to="settings">Settings</Link>
       </nav>
 
-      {/* This is where nested routes will render */}
+      {/* Nested routes (ProfileDetails, ProfileSettings) render here */}
       <Outlet />
     </div>
   );
