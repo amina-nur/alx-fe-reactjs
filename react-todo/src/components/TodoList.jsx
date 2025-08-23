@@ -7,11 +7,7 @@ export default function TodoList() {
   ]);
 
   const addTodo = (text) => {
-    const newTodo = {
-      id: Date.now(),
-      text,
-      completed: false,
-    };
+    const newTodo = { id: Date.now(), text, completed: false };
     setTodos([...todos, newTodo]);
   };
 
@@ -41,7 +37,16 @@ export default function TodoList() {
               cursor: "pointer",
             }}
           >
-            {todo.text} <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo.id); }}>Delete</button>
+            {todo.text}{" "}
+            <button
+              data-testid={`delete-${todo.id}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteTodo(todo.id);
+              }}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>

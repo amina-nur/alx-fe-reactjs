@@ -3,30 +3,29 @@ import TodoList from "../components/TodoList";
 
 test("renders initial todos", () => {
   render(<TodoList />);
-  expect(screen.getByText(/Learn React/i)).toBeInTheDocument();
-  expect(screen.getByText(/Build Todo App/i)).toBeInTheDocument();
+  expect(screen.getByText("Learn React")).toBeInTheDocument();
+  expect(screen.getByText("Build Todo App")).toBeInTheDocument();
 });
 
 test("adds a new todo", () => {
   render(<TodoList />);
-  fireEvent.change(screen.getByPlaceholderText(/Add todo/i), {
+  fireEvent.change(screen.getByPlaceholderText("Add todo"), {
     target: { value: "New Task" },
   });
-  fireEvent.click(screen.getByText(/Add/i));
-  expect(screen.getByText(/New Task/i)).toBeInTheDocument();
+  fireEvent.click(screen.getByText("Add"));
+  expect(screen.getByText("New Task")).toBeInTheDocument();
 });
 
 test("toggles todo completion", () => {
   render(<TodoList />);
-  const todo = screen.getByText(/Learn React/i);
+  const todo = screen.getByText("Learn React");
   fireEvent.click(todo);
   expect(todo).toHaveStyle("text-decoration: line-through");
 });
 
 test("deletes a todo", () => {
   render(<TodoList />);
-  const todo = screen.getByText(/Build Todo App/i);
-  const deleteBtn = screen.getByText(/Build Todo App/i).querySelector("button");
+  const deleteBtn = screen.getByTestId("delete-2"); 
   fireEvent.click(deleteBtn);
-  expect(todo).not.toBeInTheDocument();
+  expect(screen.queryByText("Build Todo App")).toBeNull();
 });
